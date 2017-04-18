@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="http://dexie.org"
-
-    >dexie (v1.5.1)</a>
+    <a href="http://dexie.org">dexie (v1.5.1)</a>
 </h1>
 <h4>A Minimalistic Wrapper for IndexedDB</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.dexie">module dexie</a><ol>
 
@@ -86,13 +79,13 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function Dexie(dbName, options) {
-    /// &#x3c;param name=&#x22;options&#x22; type=&#x22;Object&#x22; optional=&#x22;true&#x22;&#x3e;Specify only if you wich to control which addons that should run on
-this instance&#x3c;/param&#x3e;
+    /// &lt;param name="options" type="Object" optional="true"&gt;Specify only if you wich to control which addons that should run on
+this instance&lt;/param&gt;
     var deps = Dexie.dependencies;
     var opts = extend({
         // Default Options
         addons: Dexie.addons, // Pick statically registered addons by default
-        autoOpen: true, // Don&#x27;t require db.open() explicitely.
+        autoOpen: true, // Don't require db.open() explicitely.
         indexedDB: deps.indexedDB, // Backend IndexedDB api. Default to IDBShim or browser env.
         IDBKeyRange: deps.IDBKeyRange // Backend IDBKeyRange api. Default to IDBShim or browser env.
     }, options);
@@ -105,13 +98,13 @@ this instance&#x3c;/param&#x3e;
     var versions = [];
     var dbStoreNames = [];
     var allTables = {};
-    ///&#x3c;var type=&#x22;IDBDatabase&#x22; /&#x3e;
+    ///&lt;var type="IDBDatabase" /&gt;
     var idbdb = null; // Instance of IDBDatabase
     var dbOpenError = null;
     var isBeingOpened = false;
     var openComplete = false;
-    var READONLY = &#x22;readonly&#x22;,
-        READWRITE = &#x22;readwrite&#x22;;
+    var READONLY = "readonly",
+        READWRITE = "readwrite";
     var db = this;
     var dbReadyResolve,
         dbReadyPromise = new Promise(function (resolve) {
@@ -126,27 +119,27 @@ this instance&#x3c;/param&#x3e;
         hasGetAll;
 
     function init() {
-        // Default subscribers to &#x22;versionchange&#x22; and &#x22;blocked&#x22;.
+        // Default subscribers to "versionchange" and "blocked".
         // Can be overridden by custom handlers. If custom handlers return false, these default
         // behaviours will be prevented.
-        db.on(&#x22;versionchange&#x22;, function (ev) {
+        db.on("versionchange", function (ev) {
             // Default behavior for versionchange event is to close database connection.
-            // Caller can override this behavior by doing db.on(&#x22;versionchange&#x22;, function(){ return false; });
-            // Let&#x27;s not block the other window from making it&#x27;s delete() or open() call.
+            // Caller can override this behavior by doing db.on("versionchange", function(){ return false; });
+            // Let's not block the other window from making it's delete() or open() call.
             // NOTE! This event is never fired in IE,Edge or Safari.
-            if (ev.newVersion &#x3e; 0) console.warn(&#x27;Another connection wants to upgrade database \&#x27;&#x27; + db.name + &#x27;\&#x27;. Closing db now
- to resume the upgrade.&#x27;);else console.warn(&#x27;Another connection wants to delete database\&#x27;&#x27; + db.name + &#x27;\&#x27;. Closing db now to resume the delete request.&#x27;);
+            if (ev.newVersion &gt; 0) console.warn('Another connection wants to upgrade database \'' + db.name + '\'. Closing db now
+ to resume the upgrade.');else console.warn('Another connection wants to delete database\'' + db.name + '\'. Closing db now to resume the delete request.');
             db.close();
             // In many web applications, it would be recommended to force window.reload()
             // when this event occurs. To do that, subscribe to the versionchange event
-            // and call window.location.reload(true) if ev.newVersion &#x3e; 0 (not a deletion)
+            // and call window.location.reload(true) if ev.newVersion &gt; 0 (not a deletion)
             // The reason for this is that your current web app obviously has old schema code that needs
             // to be updated. Another window got a newer version of the app and needs to upgrade DB but
             // your window is blocking it unless we close it here.
         });
-        db.on(&#x22;blocked&#x22;, function (ev) {
-            if (!ev.newVersion || ev.newVersion &#x3c; ev.oldVersion) console.warn(&#x27;Dexie.delete(\&#x27;&#x27; + db.name + &#x27;\&#x27;) was blocked&#x27;);else
- console.warn(&#x27;Upgrade\&#x27;&#x27; + db.name + &#x27;\&#x27; blocked by other connection holding version &#x27; + ev.oldVersion / 10);
+        db.on("blocked", function (ev) {
+            if (!ev.newVersion || ev.newVersion &lt; ev.oldVersion) console.warn('Dexie.delete(\'' + db.name + '\') was blocked');else
+ console.warn('Upgrade\'' + db.name + '\' blocked by other connection holding version ' + ev.oldVersion / 10);
         });
     }
 
@@ -159,9 +152,9 @@ this instance&#x3c;/param&#x3e;
     //
 
     this.version = function (versionNumber) {
-        /// &#x3c;param name=&#x22;versionNumber&#x22; type=&#x22;Number&#x22;&#x3e;&#x3c;/param&#x3e;
-        /// &#x3c;returns type=&#x22;Version&#x22;&#x3e;&#x3c;/returns&#x3e;
-        if (idbdb || isBeingOpened) throw new exceptions.Schema(&#x22;Cannot add version when database is open&#x22;);
+        /// &lt;param name="versionNumber" type="Number"&gt;&lt;/param&gt;
+        /// &lt;returns type="Version"&gt;&lt;/returns&gt;
+        if (idbdb || isBeingOpened) throw new exceptions.Schema("Cannot add version when database is open");
         this.verno = Math.max(this.verno, versionNumber);
         var versionInstance = versions.filter(function (v) {
             return v._cfg.version === versionNumber;
@@ -183,3 +176,4 @@ this instance&#x3c;/param&#x3e;
     ]
 </div>
 </div>
+</body></html>

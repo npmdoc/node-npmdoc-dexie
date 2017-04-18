@@ -61,12 +61,119 @@
 
     <li class="apidocModuleLi"><a href="#apidoc.module.dexie">module dexie</a><ol>
 
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.dexie.dexie">
+            function <span class="apidocSignatureSpan"></span>dexie
+            <span class="apidocSignatureSpan">(dbName, options)</span>
+            </a>
+
+        </li>
+
     </ol></li>
 
 </ol></div>
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.dexie" id="apidoc.module.dexie">module dexie</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.dexie.dexie" id="apidoc.element.dexie.dexie">
+        function <span class="apidocSignatureSpan"></span>dexie
+        <span class="apidocSignatureSpan">(dbName, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Dexie(dbName, options) {
+    /// &#x3c;param name=&#x22;options&#x22; type=&#x22;Object&#x22; optional=&#x22;true&#x22;&#x3e;Specify only if you wich to control which addons that should run on
+this instance&#x3c;/param&#x3e;
+    var deps = Dexie.dependencies;
+    var opts = extend({
+        // Default Options
+        addons: Dexie.addons, // Pick statically registered addons by default
+        autoOpen: true, // Don&#x27;t require db.open() explicitely.
+        indexedDB: deps.indexedDB, // Backend IndexedDB api. Default to IDBShim or browser env.
+        IDBKeyRange: deps.IDBKeyRange // Backend IDBKeyRange api. Default to IDBShim or browser env.
+    }, options);
+    var addons = opts.addons,
+        autoOpen = opts.autoOpen,
+        indexedDB = opts.indexedDB,
+        IDBKeyRange = opts.IDBKeyRange;
+
+    var globalSchema = this._dbSchema = {};
+    var versions = [];
+    var dbStoreNames = [];
+    var allTables = {};
+    ///&#x3c;var type=&#x22;IDBDatabase&#x22; /&#x3e;
+    var idbdb = null; // Instance of IDBDatabase
+    var dbOpenError = null;
+    var isBeingOpened = false;
+    var openComplete = false;
+    var READONLY = &#x22;readonly&#x22;,
+        READWRITE = &#x22;readwrite&#x22;;
+    var db = this;
+    var dbReadyResolve,
+        dbReadyPromise = new Promise(function (resolve) {
+        dbReadyResolve = resolve;
+    }),
+        cancelOpen,
+        openCanceller = new Promise(function (_, reject) {
+        cancelOpen = reject;
+    });
+    var autoSchema = true;
+    var hasNativeGetDatabaseNames = !!getNativeGetDatabaseNamesFn(indexedDB),
+        hasGetAll;
+
+    function init() {
+        // Default subscribers to &#x22;versionchange&#x22; and &#x22;blocked&#x22;.
+        // Can be overridden by custom handlers. If custom handlers return false, these default
+        // behaviours will be prevented.
+        db.on(&#x22;versionchange&#x22;, function (ev) {
+            // Default behavior for versionchange event is to close database connection.
+            // Caller can override this behavior by doing db.on(&#x22;versionchange&#x22;, function(){ return false; });
+            // Let&#x27;s not block the other window from making it&#x27;s delete() or open() call.
+            // NOTE! This event is never fired in IE,Edge or Safari.
+            if (ev.newVersion &#x3e; 0) console.warn(&#x27;Another connection wants to upgrade database \&#x27;&#x27; + db.name + &#x27;\&#x27;. Closing db now
+ to resume the upgrade.&#x27;);else console.warn(&#x27;Another connection wants to delete database\&#x27;&#x27; + db.name + &#x27;\&#x27;. Closing db now to resume the delete request.&#x27;);
+            db.close();
+            // In many web applications, it would be recommended to force window.reload()
+            // when this event occurs. To do that, subscribe to the versionchange event
+            // and call window.location.reload(true) if ev.newVersion &#x3e; 0 (not a deletion)
+            // The reason for this is that your current web app obviously has old schema code that needs
+            // to be updated. Another window got a newer version of the app and needs to upgrade DB but
+            // your window is blocking it unless we close it here.
+        });
+        db.on(&#x22;blocked&#x22;, function (ev) {
+            if (!ev.newVersion || ev.newVersion &#x3c; ev.oldVersion) console.warn(&#x27;Dexie.delete(\&#x27;&#x27; + db.name + &#x27;\&#x27;) was blocked&#x27;);else
+ console.warn(&#x27;Upgrade\&#x27;&#x27; + db.name + &#x27;\&#x27; blocked by other connection holding version &#x27; + ev.oldVersion / 10);
+        });
+    }
+
+    //
+    //
+    //
+    // ------------------------- Versioning Framework---------------------------
+    //
+    //
+    //
+
+    this.version = function (versionNumber) {
+        /// &#x3c;param name=&#x22;versionNumber&#x22; type=&#x22;Number&#x22;&#x3e;&#x3c;/param&#x3e;
+        /// &#x3c;returns type=&#x22;Version&#x22;&#x3e;&#x3c;/returns&#x3e;
+        if (idbdb || isBeingOpened) throw new exceptions.Schema(&#x22;Cannot add version when database is open&#x22;);
+        this.verno = Math.max(this.verno, versionNumber);
+        var versionInstance = versions.filter(function (v) {
+            return v._cfg.version === versionNumber;
+        })[0];
+        if (versionInstance) return versionInstance;
+        versionInstance = new Version(versionNumber);
+        versions.push(versionInstance);
+        versions.sort(lowerVersionFirst);
+        return versionIn ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 </div>
 
