@@ -1,9 +1,14 @@
-# api documentation for  [dexie (v1.5.1)](http://dexie.org)  [![npm package](https://img.shields.io/npm/v/npmdoc-dexie.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-dexie) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-dexie.svg)](https://travis-ci.org/npmdoc/node-npmdoc-dexie)
+# npmdoc-dexie
+
+#### api documentation for  [dexie (v1.5.1)](http://dexie.org)  [![npm package](https://img.shields.io/npm/v/npmdoc-dexie.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-dexie) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-dexie.svg)](https://travis-ci.org/npmdoc/node-npmdoc-dexie)
+
 #### A Minimalistic Wrapper for IndexedDB
 
-[![NPM](https://nodei.co/npm/dexie.png?downloads=true)](https://www.npmjs.com/package/dexie)
+[![NPM](https://nodei.co/npm/dexie.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/dexie)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-dexie/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-dexie_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-dexie/build/apidoc.html)
+- [https://npmdoc.github.io/node-npmdoc-dexie/build/apidoc.html](https://npmdoc.github.io/node-npmdoc-dexie/build/apidoc.html)
+
+[![apidoc](https://npmdoc.github.io/node-npmdoc-dexie/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-dexie/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-dexie/build/screenCapture.npmPackageListing.svg)
 
@@ -85,17 +90,14 @@
     "main": "dist/dexie.js",
     "maintainers": [
         {
-            "name": "anders.ekdahl",
-            "email": "anders.ekdahl@gmail.com"
+            "name": "anders.ekdahl"
         },
         {
-            "name": "dfahlander",
-            "email": "david.fahlander@gmail.com"
+            "name": "dfahlander"
         }
     ],
     "name": "dexie",
     "optionalDependencies": {},
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/dfahlander/Dexie.js.git"
@@ -113,16 +115,6 @@
     "version": "1.5.1"
 }
 ```
-
-
-
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
-
-#### [module dexie](#apidoc.module.dexie)
-
-
-
-# <a name="apidoc.module.dexie"></a>[module dexie](#apidoc.module.dexie)
 
 
 
